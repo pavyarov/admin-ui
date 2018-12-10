@@ -1,0 +1,6 @@
+node_modules/*
+build
+localization/messages
+localization/translated/en.json
+package.json
+package-lock.json
