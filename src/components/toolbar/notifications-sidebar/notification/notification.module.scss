@@ -65,6 +65,10 @@
     display: none;
     width: 48px;
     color: map-get($color-palette, blue100);
+
+    & > * {
+      margin-left: 16px;
+    }
   }
 
   &__mark-as-read-button {
@@ -89,10 +93,6 @@
     height: 16px;
     color: map-get($color-palette, red100);
     cursor: pointer;
-
-    &--read {
-      margin-left: 32px;
-    }
 
     &:hover {
       color: map-get($color-palette, red50);
