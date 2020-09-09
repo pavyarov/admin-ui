@@ -57,6 +57,7 @@ export const QualityGateSettings = qualityGateSettings(
               <Panel data-test="quality-gate-settings:condtion:risks">
                 Risks
                 <RisksInfoIcon
+                  customStyle={{ bottom: '20px', left: '6px' }}
                   message={(
                     <Panel direction="column">
                       <span>Try to cover all of your risks in current build.</span>
