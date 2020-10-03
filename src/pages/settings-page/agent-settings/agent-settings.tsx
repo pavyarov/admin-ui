@@ -4,9 +4,9 @@ import { BEM } from '@redneckz/react-bem-helper';
 import { TabsPanel, Tab } from 'components';
 import { Agent } from 'types/agent';
 import { Message } from 'types/message';
+import { PluginsSettingsTab } from 'modules';
 import { GeneralSettingsForm } from './general-settings-form';
 import { SystemSettingsForm } from './system-setting-form';
-import { PluginsSettings } from './plugins-settings';
 
 import styles from './agent-settings.module.scss';
 
@@ -36,7 +36,7 @@ export const AgentSettings = agentSettings(({ className, showMessage, agent }: P
     },
     {
       name: 'plugins',
-      component: <PluginsSettings agent={agent} />,
+      component: <PluginsSettingsTab agent={agent} />,
     },
   ];
   return (

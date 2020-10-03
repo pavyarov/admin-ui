@@ -4,6 +4,7 @@ import { BEM } from '@redneckz/react-bem-helper';
 import { TabsPanel, Tab } from 'components';
 import { Message } from 'types/message';
 import { CommonEntity } from 'types/common-entity';
+import { PluginsSettingsTab } from 'modules/plugins-settings-tab';
 import { GeneralSettingsForm } from './general-settings-form';
 import { SystemSettingsForm } from './system-setting-form';
 
@@ -35,6 +36,10 @@ export const ServiceGroupSettings = agentSettings(
         name: 'system',
         component: <SystemSettingsForm serviceGroup={serviceGroup} showMessage={showMessage} />,
       },
+      {
+        name: 'plugins',
+        component: <PluginsSettingsTab agent={serviceGroup} />,
+      },
     ];
 
     return (
@@ -42,6 +47,7 @@ export const ServiceGroupSettings = agentSettings(
         <Tabs activeTab={selectedTab} onSelect={setSelectedTab}>
           <Tab name="general">General</Tab>
           <Tab name="system">System</Tab>
+          <Tab name="plugins">Plugins</Tab>
         </Tabs>
         {tabsComponents.find(({ name }) => name === selectedTab)?.component}
       </div>

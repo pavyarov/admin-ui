@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { BEM, div, span } from '@redneckz/react-bem-helper';
-import { Icons, Inputs, Panel } from '@drill4j/ui-kit';
+import { BEM, div } from '@redneckz/react-bem-helper';
+import {
+  Badge, Icons, Inputs, Panel,
+} from '@drill4j/ui-kit';
 
 import styles from './selectable-list.module.scss';
 
@@ -22,7 +24,6 @@ export const SelectableList = selectableList(
     <div className={className}>
       {data.map((plugin) => (
         <Element key={plugin[idKey]} selected={selectedRows.includes(plugin[idKey])}>
-          <PluginRelation relation={plugin.relation}>{plugin.relation}</PluginRelation>
           <Plugin
             selected={selectedRows.includes(plugin[idKey])}
             selectable={plugin.relation !== 'Installed'}
@@ -42,9 +43,21 @@ export const SelectableList = selectableList(
             <PluginsIconWrapper selected={selectedRows.includes(plugin[idKey])}>
               <Icons.Test2Code />
             </PluginsIconWrapper>
-            <Panel align="space-between">
-              <PluginName>{plugin.name}</PluginName>
-              {plugin.version && <PluginVersion>{plugin.version}</PluginVersion>}
+            <Panel direction="column" verticalAlign="start">
+              <Panel>
+                <PluginName>{plugin.name}</PluginName>
+                {plugin.relation && (
+                  <PluginRelation
+                    color={plugin.relation === 'Installed' ? 'gray' : 'green'}
+                  >
+                    {plugin.relation}
+                  </PluginRelation>
+                )}
+                {plugin.version && <PluginVersion>{plugin.version}</PluginVersion>}
+              </Panel>
+              <PluginDescription title={plugin.description}>
+                {plugin.description}
+              </PluginDescription>
             </Panel>
           </Plugin>
         </Element>
@@ -54,11 +67,10 @@ export const SelectableList = selectableList(
 );
 
 const Element = selectableList.element(div({} as { selected?: boolean }));
-const PluginRelation = selectableList.pluginRelation(
-  span({ relation: 'Installed' } as { relation?: 'Installed' | 'New' }),
-);
+const PluginRelation = selectableList.pluginRelation(Badge);
 const Plugin = selectableList.plugin(div({} as { selected?: boolean; selectable?: boolean }));
 const Checkbox = selectableList.checkbox(Inputs.Checkbox);
 const PluginsIconWrapper = selectableList.pluginsIconWrapper(div({} as { selected?: boolean }));
 const PluginName = selectableList.pluginName('div');
 const PluginVersion = selectableList.pluginVersion('div');
+const PluginDescription = selectableList.pluginDescription('span');

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BEM } from '@redneckz/react-bem-helper';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Panel, Icons, Button } from '@drill4j/ui-kit';
 
 import { PluginListEntry } from 'components';
@@ -8,29 +8,29 @@ import { Agent } from 'types/agent';
 import { AddPluginsModal } from './add-plugins-modal';
 import { NoPluginsStub } from './no-plugins-stub';
 
-import styles from './plugins-settings.module.scss';
+import styles from './plugins-settings-tab.module.scss';
 
 interface Props {
   className?: string;
   agent: Agent;
 }
 
-const pluginsSettings = BEM(styles);
+const pluginsSettingsTab = BEM(styles);
 
-export const PluginsSettings = pluginsSettings(
+export const PluginsSettingsTab = pluginsSettingsTab(
   ({
     className,
-    agent: { id: agentId = '', plugins = [], buildVersion },
+    agent: { id = '', plugins = [], buildVersion = '' },
   }: Props) => {
     const [isAddPluginOpen, setIsAddPluginOpen] = React.useState(false);
+    const { type: agentType } = useParams<{ type: 'service-group' | 'agent' }>();
     const { push } = useHistory();
-
     return (
       <div className={className}>
         <InfoPanel align="space-between">
           <Panel>
             <InfoIcon />
-            Plugins installed on your agent.
+            {`Plugins installed on your ${agentType === 'agent' ? 'agent' : 'service group'}.`}
           </Panel>
         </InfoPanel>
         <Header align="space-between">
@@ -41,7 +41,7 @@ export const PluginsSettings = pluginsSettings(
           <AddPluginButton
             type="secondary"
             onClick={() => setIsAddPluginOpen(!isAddPluginOpen)}
-            data-test="agent-info-page:add-plugin-button"
+            data-test={`${agentType}-info-page:add-plugin-button`}
           >
             <Icons.Add />
             <span>Add plugin</span>
@@ -50,12 +50,12 @@ export const PluginsSettings = pluginsSettings(
         <Content>
           {(plugins || []).length > 0 ? (
             plugins.map(({
-              id, name, description, version,
+              id: pluginId, name, description, version,
             }) => (
               <PluginListEntry
                 key={id}
                 description={description}
-                onClick={() => push(`/full-page/${agentId}/${buildVersion}/${id}/dashboard`)}
+                onClick={() => agentType === 'agent' && push(`/full-page/${id}/${buildVersion}/${pluginId}/dashboard`)}
                 icon={name as keyof typeof Icons}
               >
                 <Panel>
@@ -72,7 +72,8 @@ export const PluginsSettings = pluginsSettings(
           <AddPluginsModal
             isOpen={isAddPluginOpen}
             onToggle={setIsAddPluginOpen}
-            agentId={agentId}
+            agentId={id}
+            agentType={agentType}
           />
         )}
       </div>
@@ -80,11 +81,11 @@ export const PluginsSettings = pluginsSettings(
   },
 );
 
-const InfoPanel = pluginsSettings.infoPanel(Panel);
-const InfoIcon = pluginsSettings.infoIcon(Icons.Info);
-const Content = pluginsSettings.content('div');
-const Header = pluginsSettings.header(Panel);
-const PluginsCount = pluginsSettings.pluginsCount('span');
-const AddPluginButton = pluginsSettings.addPlugin(Button);
-const PluginName = pluginsSettings.pluginName('div');
-const PluginVersion = pluginsSettings.pluginVersion('div');
+const InfoPanel = pluginsSettingsTab.infoPanel(Panel);
+const InfoIcon = pluginsSettingsTab.infoIcon(Icons.Info);
+const Content = pluginsSettingsTab.content('div');
+const Header = pluginsSettingsTab.header(Panel);
+const PluginsCount = pluginsSettingsTab.pluginsCount('span');
+const AddPluginButton = pluginsSettingsTab.addPlugin(Button);
+const PluginName = pluginsSettingsTab.pluginName('div');
+const PluginVersion = pluginsSettingsTab.pluginVersion('div');

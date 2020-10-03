@@ -16,24 +16,25 @@ interface Props {
   isOpen: boolean;
   onToggle: (arg: boolean) => void;
   agentId: string;
+  agentType: string;
 }
 
 const addPluginModal = BEM(styles);
 
 export const AddPluginsModal = addPluginModal(({
-  className, isOpen, onToggle, agentId,
+  className, isOpen, onToggle, agentId, agentType,
 }: Props) => {
   const [selectedPlugins, setSelectedPlugins] = React.useState<string[]>([]);
   const { showMessage } = React.useContext(NotificationManagerContext);
-  const plugins = useWsConnection<Plugin[]>(defaultAdminSocket, `/agents/${agentId}/plugins`);
-  const handleLoadPlugins = loadPlugins(agentId, {
+  const connectionTopic = `/${agentType === 'agent' ? 'agents' : 'service-groups'}/${agentId}/plugins`;
+  const plugins = useWsConnection<Plugin[]>(defaultAdminSocket, connectionTopic);
+  const handleLoadPlugins = loadPlugins(connectionTopic, {
     onSuccess: () => {
       onToggle(false);
       showMessage({ type: 'SUCCESS', text: 'Plugin has been added' });
     },
     onError: (message: string) => showMessage({ type: 'ERROR', text: message }),
   });
-
   return (
     <Modal isOpen={isOpen} onToggle={onToggle}>
       <div className={className}>

@@ -17,20 +17,10 @@
 
   &__plugin-relation {
     height: 20px;
-    padding: 0 6px;
-    line-height: 20px;
+    margin-left: 8px;
+    line-height: 16px;
     font-size: 12px;
     font-family: $semibold-font;
-    color: map-get($color-palette, white);
-
-    &--relation {
-      &--installed {
-        background-color: map-get($color-palette, middle-blue);
-      }
-      &--new {
-        background-color: map-get($color-palette, green100);
-      }
-    }
   }
 
   &__plugin {
@@ -38,13 +28,8 @@
     align-items: center;
     flex-direction: row;
     width: 100%;
-    padding-bottom: 16px;
-    border-bottom: 1px solid map-get($color-palette, light-blue);
-    padding-left: 42px;
-
-    &--selectable {
-      padding-left: 0;
-    }
+    padding: 16px 8px 16px 16px;
+    border-bottom: 1px solid map-get($monochrome, medium-tint);
   }
 
   &__checkbox {
@@ -59,24 +44,37 @@
     height: 56px;
     min-width: 56px;
     border-radius: 8px;
-    background-color: map-get($color-palette, ultra-light-blue);
-    color: $slate-gray;
+    background-color: map-get($monochrome, light-tint);
+    color: map-get($monochrome, default);
 
     &--selected {
-      background-color: map-get($color-palette, blue100);
-      color: map-get($color-palette, white);
+      background-color: map-get($primary-blue, default);
+      color: map-get($monochrome, white);
     }
   }
 
   &__plugin-name {
     font-size: 14px;
     font-family: $semibold-font;
-    color: $gravel-color;
+    color: map-get($monochrome, black);
   }
 
   &__plugin-version {
-    margin-right: 8px;
+    flex-grow: 1;
+    font-family: $regular-font;
     font-size: 12px;
-    color: map-get($color-palette, black100);
+    text-align: right;
+    color: map-get($monochrome, black);
+  }
+  &__plugin-description {
+    width: 200px;
+    height: 32px;
+    margin-top: 4px;
+    font-family: $regular-font;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 16px;
+    color: map-get($monochrome, default);
+    overflow: hidden;
   }
 }
