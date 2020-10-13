@@ -11,16 +11,30 @@ import styles from './service-group-sessions.module.scss';
 interface Props {
   className?: string;
   activeSessions: ActiveSession[];
-  abortingSessionIdByAgentId: string;
-  setAbortingSessionIdByAgentId: React.Dispatch<React.SetStateAction<string>>;
-  showGeneralAlertMessage: (message: Message) => void
+  showGeneralAlertMessage: (message: Message) => void;
+  actions: {
+    setAbortingSessionIdByAgentId: (id: string) => void,
+    setFinishingSessionIdByAgentId: (id: string) => void,
+  };
+  operations: {
+    bulkOperation: {
+      isProcessing: boolean,
+      operationType: string
+    };
+    singleOperation: {
+      id: string,
+      operationType: string
+    };
+  };
 }
 
 const serviceGroupSessions = BEM(styles);
 
 export const ServiceGroupSessions = serviceGroupSessions(
   ({
-    className, activeSessions, abortingSessionIdByAgentId, setAbortingSessionIdByAgentId, showGeneralAlertMessage,
+    className, activeSessions, showGeneralAlertMessage,
+    operations: { singleOperation, bulkOperation },
+    actions: { setAbortingSessionIdByAgentId, setFinishingSessionIdByAgentId },
   }: Props) => {
     const serviceGroupAgentsIds = Array.from(new Set(activeSessions.map(session => session.agentId)));
     return (
@@ -28,7 +42,10 @@ export const ServiceGroupSessions = serviceGroupSessions(
         {
           serviceGroupAgentsIds.map((agentId) => (
             <div key={agentId}>
-              <ServiceGroupAgentPanel data-test="service-group-sessions:service-group-agent-panel">
+              <ServiceGroupAgentPanel
+                data-test="service-group-sessions:service-group-agent-panel"
+                disabled={Boolean(singleOperation.id) || bulkOperation.isProcessing}
+              >
                 <Icons.Agent data-test="service-group-sessions:agent-icon" />
                 <AgentTitle data-test="service-group-sessions:agent-title">Agent:</AgentTitle>
                 {agentId}
@@ -40,9 +57,9 @@ export const ServiceGroupSessions = serviceGroupSessions(
                     sessionId={sessionId}
                     testType={testType}
                     agentId={agentId}
-                    abortingSessionIdByAgentId={abortingSessionIdByAgentId}
-                    setAbortingSessionIdByAgentId={setAbortingSessionIdByAgentId}
                     showGeneralAlertMessage={showGeneralAlertMessage}
+                    actions={{ setAbortingSessionIdByAgentId, setFinishingSessionIdByAgentId }}
+                    operations={{ bulkOperation, singleOperation }}
                   />
                 ))}
             </div>
