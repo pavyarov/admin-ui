@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
 import { defaultTest2CodePluginSocket } from 'common/connection';
-import { Search, Sort } from 'modules/table-actions/table-actions-types';
+import { Search } from 'types/search';
+import { Sort } from 'types/sort';
 import { usePluginState } from '../store';
 
 export function useBuildVersion<Data>(topic: string, search?: Search, sort?: Sort): Data | null {
