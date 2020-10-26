@@ -10,3 +10,4 @@ export {
   TableActionsProvider, useTableActionsState, useTableActionsDispatch,
   setSearch, toggleOrder,
 } from './table-actions';
+export { TestsToRunList } from './tests-to-run-list';

@@ -1,0 +1,30 @@
+@import '~common/style-guide/index';
+
+.tests-to-run-url {
+  min-width: 370px;
+  max-width: 370px;
+  font-size: 14px;
+  line-height: 20px;
+  color: map-get($primary-blue, default);
+  word-break: break-all;
+
+  & > *:not(:first-child) {
+    margin-left: 16px;
+  }
+
+  &__curl-flag {
+    min-width: 18px;
+    font-family: $semibold-font;
+    color: map-get($monochrome, black);
+
+    &--color {
+      &--red {
+        color: map-get($red, default);
+      }
+    }
+
+    &--invisible {
+      opacity: 0;
+    }
+  }
+}

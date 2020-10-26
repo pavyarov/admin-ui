@@ -108,7 +108,6 @@ export const TestDetails = testDetails(
             isOpen={Boolean(selectedTest)}
             onToggle={() => setSelectedTest('')}
             testId={selectedTest}
-            coveredMethods={coveredMethodsByTest}
           />
         )}
       </div>

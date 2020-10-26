@@ -6,6 +6,7 @@ import {
 
 import { MethodCoveredByTest } from 'types/method-covered-by-test';
 import { MethodsList } from '../methods-list';
+import { useBuildVersion } from '../../use-build-version';
 
 import styles from './covered-methods-by-test-sidebar.module.scss';
 
@@ -14,16 +15,16 @@ interface Props {
   isOpen: boolean;
   onToggle: (value: boolean) => void;
   testId: string;
-  coveredMethods: MethodCoveredByTest[];
 }
 
 const coveredMethodsByTestSidebar = BEM(styles);
 
 export const CoveredMethodsByTestSidebar = coveredMethodsByTestSidebar(
   ({
-    className, isOpen, onToggle, testId, coveredMethods = [],
+    className, isOpen, onToggle, testId,
   }: Props) => {
-    const filteredMethods = coveredMethods.find(({ id }) => id === testId) || {};
+    const coveredMethodsByTest = useBuildVersion<MethodCoveredByTest[]>('/build/tests/covered-methods') || [];
+    const filteredMethods = coveredMethodsByTest.find(({ id }) => id === testId) || {};
     const {
       testName = '',
       testType = '',

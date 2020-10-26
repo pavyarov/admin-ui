@@ -1,18 +1,16 @@
 import * as React from 'react';
 import { BEM } from '@redneckz/react-bem-helper';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import {
   Button, Icons, Tooltip, Panel,
 } from '@drill4j/ui-kit';
 
-import { TestsToRunModal } from 'modules';
 import { QualityGatePane } from 'components';
 import {
   ConditionSetting, ConditionSettingByType, QualityGate, QualityGateSettings,
 } from 'types/quality-gate-type';
 import { Metrics } from 'types/metrics';
 import { useAgent } from 'hooks';
-import { TestsToRun } from 'types/tests-to-run';
 import { usePluginState } from '../../store';
 import { useBuildVersion } from '../use-build-version';
 import { ActionSection } from './action-section';
@@ -28,14 +26,13 @@ const coveragePluginHeader = BEM(styles);
 
 export const CoveragePluginHeader = coveragePluginHeader(({ className }: Props) => {
   const [isRisksModalOpen, setIsRisksModalOpen] = React.useState(false);
-  const [isTestsToRunModalOpen, setIsTestToRunModalOpen] = React.useState(false);
   const [isOpenQualityGatesPane, setIsOpenQualityGatesPane] = React.useState(false);
 
+  const { push } = useHistory();
   const { pluginId = '' } = useParams<{ pluginId: string }>();
   const { agentId, buildVersion } = usePluginState();
   const { buildVersion: activeBuildVersion = '' } = useAgent(agentId) || {};
 
-  const { testTypeToNames = {} } = useBuildVersion<TestsToRun>('/build/tests-to-run') || {};
   const conditionSettings = useBuildVersion<ConditionSetting[]>('/data/quality-gate-settings') || [];
   const {
     status = 'FAILED',
@@ -111,22 +108,13 @@ export const CoveragePluginHeader = coveragePluginHeader(({ className }: Props) 
         <ActionSection
           label="Tests to run"
           count={testToRunCount}
-          onClick={() => setIsTestToRunModalOpen(true)}
+          onClick={() => push(`/full-page/${agentId}/${buildVersion}/${pluginId}/tests-to-run`)}
         />
       </Actions>
       {isRisksModalOpen && (
         <RisksModal
           isOpen={isRisksModalOpen}
           onToggle={setIsRisksModalOpen}
-        />
-      )}
-      {isTestsToRunModalOpen && (
-        <TestsToRunModal
-          testsToRun={testTypeToNames}
-          isOpen={isTestsToRunModalOpen}
-          onToggle={setIsTestToRunModalOpen}
-          agentId={agentId}
-          pluginId={pluginId}
         />
       )}
       <QualityGatePane
