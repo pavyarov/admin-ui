@@ -45,7 +45,6 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
           idKey="name"
           sort={sort}
           onSort={setSort}
-          columnsSize="medium"
         >
           <Column
             name="name"
@@ -53,12 +52,11 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
             Cell={({ value }) => (
               <Cells.Compound cellName={value} cellAdditionalInfo="&ndash;" icon={<Icons.Test />} />
             )}
-            width="40%"
           />
           <Column
             name="type"
             label="Test type"
-            width="80px"
+            width="106px"
           />
           <Column
             name="stats.result"
@@ -66,14 +64,14 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
             Cell={({ item: { toRun } }) => (
               toRun ? <>To run</> : <Done>Done</Done>
             )}
-            width="48px"
+            width="68px"
           />
           <Column
             name="coverage.percentage"
             label="Coverage, %"
             Cell={({ value, item: { toRun } }) => (toRun ? null : <Cells.Coverage value={value} />)}
             align="right"
-            width="84px"
+            width="114px"
           />
           <Column
             name="coverage.methodCount.covered"
@@ -89,14 +87,14 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
               )
             )}
             align="right"
-            width="124px"
+            width="162px"
           />
           <Column
             name="stats.duration"
             label="Duration"
             Cell={({ value, item: { toRun } }) => (toRun ? null : <Cells.Duration value={value} />)}
             align="right"
-            width="92px"
+            width="104px"
           />,
         </Table>
       </div>
