@@ -10,9 +10,8 @@ import {
   ConditionSetting, ConditionSettingByType, QualityGate, QualityGateSettings,
 } from 'types/quality-gate-type';
 import { Metrics } from 'types/metrics';
-import { useAgent } from 'hooks';
+import { useAgent, useBuildVersion } from 'hooks';
 import { usePluginState } from '../../store';
-import { useBuildVersion } from '../use-build-version';
 import { ActionSection } from './action-section';
 import { RisksModal } from '../risks-modal';
 

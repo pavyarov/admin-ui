@@ -7,8 +7,8 @@ import {
 import { Cells, SearchPanel } from 'components';
 import { Sort } from 'types/sort';
 import { TestCoverageInfo } from 'types/test-coverage-info';
-import { useBuildVersion } from 'pages/agent-full-page/coverage-plugin/use-build-version';
-import { CoveredMethodsByTestSidebar } from 'pages/agent-full-page/coverage-plugin/test-details/covered-methods-by-test-sidebar';
+import { useBuildVersion } from 'hooks';
+import { CoveredMethodsByTestSidebar } from 'modules';
 import { Metrics } from 'types/metrics';
 import { TestsToRunHeader } from './tests-to-run-header';
 
@@ -103,6 +103,7 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
           isOpen={Boolean(selectedTest)}
           onToggle={() => setSelectedTest('')}
           testId={selectedTest}
+          topicCoveredMethodsByTest="/build/tests/covered-methods"
         />
       )}
     </div>

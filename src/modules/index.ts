@@ -11,3 +11,4 @@ export {
   setSearch, toggleOrder,
 } from './table-actions';
 export { TestsToRunList } from './tests-to-run-list';
+export { CoveredMethodsByTestSidebar } from './covered-methods-by-test-sidebar';

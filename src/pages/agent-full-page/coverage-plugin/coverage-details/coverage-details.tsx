@@ -3,7 +3,7 @@ import { BEM } from '@redneckz/react-bem-helper';
 import { Icons } from '@drill4j/ui-kit';
 
 import { ClassCoverage } from 'types/class-coverage';
-import { useVisibleElementsCount } from 'hooks';
+import { useVisibleElementsCount, useBuildVersion } from 'hooks';
 import { Cells, SearchPanel } from 'components';
 import {
   useTableActionsState, useTableActionsDispatch, setSearch,
@@ -13,7 +13,6 @@ import { NameCell } from './name-cell';
 import { AssociatedTestModal } from './associated-test-modal';
 import { AssociatedTestColumn } from './associated-test-column';
 import { ExpandableTable, Column } from './table';
-import { useBuildVersion } from '../use-build-version';
 
 import styles from './coverage-details.module.scss';
 

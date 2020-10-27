@@ -5,8 +5,8 @@ import {
 } from '@drill4j/ui-kit';
 
 import { MethodCoveredByTest } from 'types/method-covered-by-test';
-import { MethodsList } from '../methods-list';
-import { useBuildVersion } from '../../use-build-version';
+import { useBuildVersion } from 'hooks';
+import { MethodsList } from './methods-list';
 
 import styles from './covered-methods-by-test-sidebar.module.scss';
 
@@ -15,15 +15,16 @@ interface Props {
   isOpen: boolean;
   onToggle: (value: boolean) => void;
   testId: string;
+  topicCoveredMethodsByTest: string;
 }
 
 const coveredMethodsByTestSidebar = BEM(styles);
 
 export const CoveredMethodsByTestSidebar = coveredMethodsByTestSidebar(
   ({
-    className, isOpen, onToggle, testId,
+    className, isOpen, onToggle, testId, topicCoveredMethodsByTest,
   }: Props) => {
-    const coveredMethodsByTest = useBuildVersion<MethodCoveredByTest[]>('/build/tests/covered-methods') || [];
+    const coveredMethodsByTest = useBuildVersion<MethodCoveredByTest[]>(topicCoveredMethodsByTest) || [];
     const filteredMethods = coveredMethodsByTest.find(({ id }) => id === testId) || {};
     const {
       testName = '',

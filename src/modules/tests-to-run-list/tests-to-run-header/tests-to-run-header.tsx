@@ -3,7 +3,7 @@ import { BEM } from '@redneckz/react-bem-helper';
 import { Button, Panel } from '@drill4j/ui-kit';
 import { useParams } from 'react-router-dom';
 
-import { useBuildVersion } from 'pages/agent-full-page/coverage-plugin/use-build-version';
+import { useBuildVersion } from 'hooks';
 import { ParentBuild } from 'types/parent-build';
 import { GetSuggestedTestsModal } from './get-suggested-tests-modal';
 
