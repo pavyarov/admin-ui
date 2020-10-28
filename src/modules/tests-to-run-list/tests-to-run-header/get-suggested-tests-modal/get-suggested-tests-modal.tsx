@@ -23,7 +23,7 @@ const getSuggestedTestsModal = BEM(styles);
 export const GetSuggestedTestsModal = getSuggestedTestsModal(({
   className, isOpen, onToggle, agentType,
 }: Props) => {
-  const { agentId = '', pluginId = '' } = useParams<{agentId: string; pluginId: string; }>();
+  const { agentId = '', pluginId = '' } = useParams<{ agentId: string; pluginId: string; }>();
   return (
     <Popup
       isOpen={isOpen}
@@ -32,7 +32,7 @@ export const GetSuggestedTestsModal = getSuggestedTestsModal(({
       closeOnFadeClick
     >
       <div className={className}>
-        <Message>
+        <Message data-test="get-suggested-tests-modal:message">
           <span>These are recommendations for this build updates only.</span>
           <span>Use this Curl in your command line to get JSON:</span>
           <CommandWrapper verticalAlign="end">
@@ -40,7 +40,14 @@ export const GetSuggestedTestsModal = getSuggestedTestsModal(({
             <CopyIcon onClick={() => copyToClipboard(getTestsToRunURL(agentId, pluginId, agentType))} />
           </CommandWrapper>
         </Message>
-        <CloseButton type="secondary" size="large" onClick={() => onToggle(false)}>Close</CloseButton>
+        <CloseButton
+          type="secondary"
+          size="large"
+          onClick={() => onToggle(false)}
+          data-test="get-suggested-tests-modal:close-button"
+        >
+          Close
+        </CloseButton>
       </div>
     </Popup>
   );

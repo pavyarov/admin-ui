@@ -30,7 +30,7 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
   return (
     <div className={className}>
       <TestsToRunHeader agentType={agentType} testsToRunCount={testToRunCount} />
-      <Title>SUGGESTED TESTS</Title>
+      <Title data-test="tests-to-run-list:title">SUGGESTED TESTS</Title>
       <div>
         <SearchPanel
           onSearch={(value) => setSearch({ ...search, value })}

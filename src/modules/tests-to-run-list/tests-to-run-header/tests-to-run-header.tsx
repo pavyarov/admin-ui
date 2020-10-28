@@ -26,19 +26,24 @@ export const TestsToRunHeader = testsToRunHeader(({ className, testsToRunCount, 
       <div className={className}>
         <Panel align="space-between">
           <div>
-            <Title>
+            <Title data-test="tests-to-run-header:title">
               Tests to Run
               <Count>{testsToRunCount}</Count>
             </Title>
-            <SubTitle>
+            <SubTitle data-test="tests-to-run-header:subtitle">
               Build:
-              <CurrentBuildVersion>{buildVersion}</CurrentBuildVersion>
-              <ComparedBuildVersion>
+              <CurrentBuildVersion data-test="tests-to-run-header:current-build-version">{buildVersion}</CurrentBuildVersion>
+              <ComparedBuildVersion data-test="tests-to-run-header:compared-build-version">
                 (compared to Build {previousBuildVersion})
               </ComparedBuildVersion>
             </SubTitle>
           </div>
-          <Button type="secondary" size="large" onClick={() => setModalIsOpen(true)}>
+          <Button
+            type="secondary"
+            size="large"
+            onClick={() => setModalIsOpen(true)}
+            data-test="tests-to-run-header:get-suggested-tests-button"
+          >
             Get Suggested Tests
           </Button>
         </Panel>
