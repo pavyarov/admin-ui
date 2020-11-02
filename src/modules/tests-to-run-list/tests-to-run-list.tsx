@@ -5,11 +5,11 @@ import {
 } from '@drill4j/ui-kit';
 
 import { Cells, SearchPanel } from 'components';
-import { Sort } from 'types/sort';
 import { TestCoverageInfo } from 'types/test-coverage-info';
 import { useBuildVersion } from 'hooks';
 import { CoveredMethodsByTestSidebar } from 'modules';
 import { Metrics } from 'types/metrics';
+import { capitalize } from 'utils';
 import { TestsToRunHeader } from './tests-to-run-header';
 
 import styles from './tests-to-run-list.module.scss';
@@ -24,8 +24,7 @@ const testsToRunList = BEM(styles);
 export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }: Props) => {
   const [selectedTest, setSelectedTest] = React.useState('');
   const [search, setSearch] = React.useState({ fieldName: 'name', value: '' });
-  const [sort, setSort] = React.useState<Sort>({ fieldName: 'name', order: 'ASC' });
-  const testsToRun = useBuildVersion<TestCoverageInfo[]>('/build/tests-to-run', search, sort) || [];
+  const testsToRun = useBuildVersion<TestCoverageInfo[]>('/build/tests-to-run', search) || [];
   const { tests: testToRunCount = 0 } = useBuildVersion<Metrics>('/data/stats') || {};
   return (
     <div className={className}>
@@ -40,12 +39,7 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
         >
           Displaying {testsToRun.length} of {testToRunCount} tests
         </SearchPanel>
-        <Table
-          data={testsToRun}
-          idKey="name"
-          sort={sort}
-          onSort={setSort}
-        >
+        <Table data={testsToRun} idKey="name">
           <Column
             name="name"
             label="Name"
@@ -56,7 +50,12 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
           <Column
             name="type"
             label="Test type"
-            width="106px"
+            width="108px"
+            Cell={({ value }) => (
+              <>
+                {capitalize(value)}
+              </>
+            )}
           />
           <Column
             name="stats.result"
@@ -71,7 +70,7 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
             label="Coverage, %"
             Cell={({ value, item: { toRun } }) => (toRun ? null : <Cells.Coverage value={value} />)}
             align="right"
-            width="114px"
+            width="98px"
           />
           <Column
             name="coverage.methodCount.covered"
@@ -94,7 +93,7 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
             label="Duration"
             Cell={({ value, item: { toRun } }) => (toRun ? null : <Cells.Duration value={value} />)}
             align="right"
-            width="104px"
+            width="118px"
           />,
         </Table>
       </div>
