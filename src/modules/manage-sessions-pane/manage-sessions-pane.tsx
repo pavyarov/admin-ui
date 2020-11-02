@@ -9,13 +9,14 @@ import {
   composeValidators,
   sizeLimit,
   required,
+  handleFieldErrors,
 } from 'forms';
 import { useGeneralAlertMessage } from 'hooks';
 import { useParams } from 'react-router-dom';
 import { ManageActiveSessions } from './manage-active-sessions';
 import { ManageNewSession } from './manage-new-session';
 import { useActiveSessions } from './use-active-sessions';
-import { startServiceGroupSessions, startAgentSession } from './manage-sessions-pane-api';
+import { startAgentSession, startServiceGroupSessions } from './manage-sessions-pane-api';
 
 import styles from './manage-sessions-pane.module.scss';
 
@@ -53,11 +54,27 @@ export const ManageSessionsPane = manageSessionsPane(
       >
         <div className={className}>
           <Form
-            onSubmit={(values: { sessionId: string; }) => (agentId
-              ? startAgentSession(agentId, pluginId, showGeneralAlertMessage)(values)
-              : startServiceGroupSessions(serviceGroupId, pluginId, showGeneralAlertMessage)(values))}
-            validate={validateManageSessionsPane as any}
-            render={({ invalid, handleSubmit, form }) => (
+            onSubmit={async (values: { sessionId: string; }, form) => {
+              try {
+                await (agentId
+                  ? startAgentSession(agentId, pluginId)(values)
+                  : startServiceGroupSessions(serviceGroupId, pluginId)(values));
+                showGeneralAlertMessage({ type: 'SUCCESS', text: 'New session has been started successfully.' });
+                form.change('sessionId', '');
+                setIsNewSession(false);
+              } catch (error) {
+                if (error?.response?.data?.code) {
+                  const { data: { fieldErrors = [] } = {} } = error?.response?.data || {};
+                  return handleFieldErrors(fieldErrors);
+                }
+                showGeneralAlertMessage({ type: 'ERROR', text: 'There is some issue with your action. Please try again.' });
+              }
+              return undefined;
+            }}
+            validate={validateManageSessionsPane}
+            render={({
+              invalid, handleSubmit, dirtySinceLastSubmit, submitting,
+            }) => (
               <>
                 <Header data-test="manage-sessions-pane:header">
                   {isNewSession ? 'Start New Session' : 'Manage Sessions' }
@@ -81,8 +98,8 @@ export const ManageSessionsPane = manageSessionsPane(
                     <Button
                       type="primary"
                       size="large"
-                      disabled={invalid}
-                      onClick={() => { handleSubmit(); form.change('sessionId', ''); setIsNewSession(false); }}
+                      disabled={(invalid && !dirtySinceLastSubmit) || submitting}
+                      onClick={handleSubmit}
                       data-test="manage-sessions-pane:start-session-button"
                     >
                       Start Session
