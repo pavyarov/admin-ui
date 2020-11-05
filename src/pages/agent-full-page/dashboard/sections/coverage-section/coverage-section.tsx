@@ -8,12 +8,8 @@ import { BuildCoverage } from 'types/build-coverage';
 import { Methods } from 'types/methods';
 import { COVERAGE_TYPES_COLOR } from 'common/constants';
 import { ParentBuild } from 'types/parent-build';
-<<<<<<< HEAD
 import { SingleBar, CoverageSectionTooltip } from 'components';
-import { useBuildVersion } from '../../../coverage-plugin/use-build-version';
-=======
 import { useBuildVersion } from 'hooks';
->>>>>>> Moved useBuildVersion to hooks folder. Moved CoveredMethodsByTestSidebar to modules
 import { usePreviousBuildCoverage } from '../../../coverage-plugin/use-previous-build-coverage';
 import { Section } from '../section';
 

@@ -37,9 +37,9 @@ export const TestsToRunList = testsToRunList(({ className, agentType = 'Agent' }
           searchResult={testsToRun.length}
           placeholder="Search tests by name"
         >
-          Displaying {testsToRun.length} of {testToRunCount} tests
+          Displaying {testsToRun.length} of {testsToRun.length} tests
         </SearchPanel>
-        <Table data={testsToRun} idKey="name">
+        <Table data={testsToRun} idKey="name" columnsSize="medium">
           <Column
             name="name"
             label="Name"

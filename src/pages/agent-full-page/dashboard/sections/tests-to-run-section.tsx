@@ -7,13 +7,7 @@ import { TESTS_TO_RUN_TYPES_COLOR } from 'common/constants';
 import { TestTypeCount } from 'types/test-type-count';
 import { TestToRunInfo } from 'types/test-to-run-info';
 import { TestTypes } from 'types/test-types';
-<<<<<<< HEAD
-import { useBuildVersion } from '../../coverage-plugin/use-build-version';
-=======
-import { capitalize } from 'utils';
 import { useBuildVersion } from 'hooks';
-import { SingleBar } from '../single-bar';
->>>>>>> Moved useBuildVersion to hooks folder. Moved CoveredMethodsByTestSidebar to modules
 import { Section } from './section';
 import { SectionTooltip } from './section-tooltip';
 

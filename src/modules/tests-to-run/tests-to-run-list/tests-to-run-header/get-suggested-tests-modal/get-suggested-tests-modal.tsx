@@ -6,8 +6,8 @@ import {
 } from '@drill4j/ui-kit';
 
 import { copyToClipboard } from 'utils';
-import { TestsToRunUrl } from './tests-to-run-url';
-import { getTestsToRunURL } from './get-tests-to-run-url';
+import { TestsToRunUrl } from '../../../tests-to-run-url';
+import { getTestsToRunURL } from '../../../get-tests-to-run-url';
 
 import styles from './get-suggested-tests-modal.module.scss';
 

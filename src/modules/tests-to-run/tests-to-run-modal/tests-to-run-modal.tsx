@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 import { BEM } from '@redneckz/react-bem-helper';
 import { nanoid } from 'nanoid';
 import {
@@ -6,15 +7,14 @@ import {
 } from '@drill4j/ui-kit';
 
 import { copyToClipboard } from 'utils';
-import { useParams } from 'react-router-dom';
 import { usePluginData } from 'pages/service-group-full-page/use-plugin-data';
-import { TestsToRunUrl } from './test-to-run-url';
-import { getTestToRunURL } from './get-test-to-run-url';
+import { TestsToRunUrl } from '../tests-to-run-url';
+import { getTestsToRunURL } from '../get-tests-to-run-url';
 
 import styles from './tests-to-run-modal.module.scss';
 
 interface GroupedTestToRun {
-  byType?: { [key: string]: string[] };
+  byType?: Record<string, string[]>;
   totalCount?: number;
 }
 
@@ -60,7 +60,7 @@ export const TestsToRunModal = testsToRunModal(
             </span>
             <CommandWrapper verticalAlign="end">
               <TestsToRunUrl agentId={serviceGroupId} pluginId={pluginId} agentType="ServiceGroup" />
-              <CopyIcon onClick={() => copyToClipboard(getTestToRunURL(serviceGroupId, pluginId, 'ServiceGroup'))} />
+              <CopyIcon onClick={() => copyToClipboard(getTestsToRunURL(serviceGroupId, pluginId, 'ServiceGroup'))} />
             </CommandWrapper>
           </NotificaitonPanel>
           <Content>
