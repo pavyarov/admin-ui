@@ -80,7 +80,7 @@ export const FinishScopeModal = finishScopeModal(
                     },
                     onError: setErrorMessage,
                   })({ prevScopeEnabled: !ignoreScope, savePrevScope: true });
-                  !testsCount && isScopeInfoPage && !scope?.sessionsFinished &&
+                  isScopeInfoPage && !scope?.sessionsFinished &&
                     push(`/full-page/${agentId}/${buildVersion}/${pluginId}/dashboard`);
                 }}
                 data-test="finish-scope-modal:finish-scope-button"
