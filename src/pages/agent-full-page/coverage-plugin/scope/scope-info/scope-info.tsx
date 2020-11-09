@@ -11,8 +11,6 @@ import {
 import { NotificationManagerContext } from 'notification-manager';
 import { ActiveScope } from 'types/active-scope';
 import { Methods } from 'types/methods';
-import { AssociatedTests } from 'types/associated-tests';
-import { MethodCoveredByTest } from 'types/method-covered-by-test';
 import { TestTypeSummary } from 'types/test-type-summary';
 import { TestSummary } from 'types/test-summary';
 import { TableActionsProvider } from 'modules';
@@ -52,15 +50,12 @@ export const ScopeInfo = scopeInfo(
     const { buildVersion: activeBuildVersion = '' } = useAgent(agentId) || {};
     const { pluginId = '', scopeId = '', buildVersion } = useParams<{ pluginId: string, scopeId: string, buildVersion: string }>();
     const dispatch = useCoveragePluginDispatch();
-    const scope = useBuildVersion<ActiveScope>(`/scope/${scopeId}`);
-    const scopeMethods = useBuildVersion<Methods>(`/scope/${scopeId}/methods`) || {};
-    const { packageCount: { total = 0 } = {} } = useBuildVersion<ScopeCoverage>(`/scope/${scopeId}/coverage`) || {};
+    const scope = useBuildVersion<ActiveScope>({ topic: `/scope/${scopeId}` });
+    const scopeMethods = useBuildVersion<Methods>({ topic: `/scope/${scopeId}/methods` }) || {};
+    const { packageCount: { total = 0 } = {} } = useBuildVersion<ScopeCoverage>({ topic: `/scope/${scopeId}/coverage` }) || {};
 
-    const testsUsages = useBuildVersion<AssociatedTests[]>(`/scope/${scopeId}/tests-usages`) || [];
-    const allScopeTests = useBuildVersion<TestSummary>(`/scope/${scopeId}/summary/tests/all`) || {};
-    const scopeTestsByType = useBuildVersion<TestTypeSummary[]>(`/scope/${scopeId}/summary/tests/by-type`) || [];
-
-    const coveredMethodsByTest = useBuildVersion<MethodCoveredByTest[]>(`/scope/${scopeId}/tests/covered-methods`) || [];
+    const allScopeTests = useBuildVersion<TestSummary>({ topic: `/scope/${scopeId}/summary/tests/all` }) || {};
+    const scopeTestsByType = useBuildVersion<TestTypeSummary[]>({ topic: `/scope/${scopeId}/summary/tests/by-type` }) || [];
 
     const {
       name = '', active = false, enabled = false, started = 0, finished = 0,
@@ -163,8 +158,8 @@ export const ScopeInfo = scopeInfo(
                 <>
                   <ProjectTestsCards allTests={allScopeTests} testsByType={scopeTestsByType} />
                   <TestDetails
-                    testsUsages={testsUsages}
-                    coveredMethodsByTest={coveredMethodsByTest}
+                    topic={`/scope/${scopeId}/tests-usages`}
+                    coveredMethodsTopic={`/scope/${scopeId}/tests/covered-methods`}
                   />
                 </>
               )}

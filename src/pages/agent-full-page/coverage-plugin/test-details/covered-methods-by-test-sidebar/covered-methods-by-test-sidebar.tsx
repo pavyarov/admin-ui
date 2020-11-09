@@ -8,21 +8,23 @@ import { MethodCoveredByTest } from 'types/method-covered-by-test';
 import { MethodsList } from '../methods-list';
 
 import styles from './covered-methods-by-test-sidebar.module.scss';
+import { useBuildVersion } from '../../use-build-version';
 
 interface Props {
   className?: string;
   isOpen: boolean;
   onToggle: (value: boolean) => void;
   testId: string;
-  coveredMethods: MethodCoveredByTest[];
+  coveredMethodsTopic: string;
 }
 
 const coveredMethodsByTestSidebar = BEM(styles);
 
 export const CoveredMethodsByTestSidebar = coveredMethodsByTestSidebar(
   ({
-    className, isOpen, onToggle, testId, coveredMethods = [],
+    className, isOpen, onToggle, testId, coveredMethodsTopic,
   }: Props) => {
+    const coveredMethods = useBuildVersion<MethodCoveredByTest[]>({ topic: coveredMethodsTopic }) || [];
     const filteredMethods = coveredMethods.find(({ id }) => id === testId) || {};
     const {
       testName = '',

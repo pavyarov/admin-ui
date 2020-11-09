@@ -28,7 +28,7 @@ export const ExpandedRowContent = BEM(styles).row(({
   secondLevelExpand = [],
   classesTopicPrefix,
 }: Props) => {
-  const { classes = [] }: any = useBuildVersion(`/${classesTopicPrefix}/coverage/packages/${item}`) || {};
+  const { classes = [] }: any = useBuildVersion({ topic: `/${classesTopicPrefix}/coverage/packages/${item}` }) || {};
 
   return classes.map((field: any, index: number) => (
     <>

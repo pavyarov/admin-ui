@@ -22,9 +22,9 @@ interface Props {
 const coverageSection = BEM(styles);
 
 export const CoverageSection = coverageSection(({ className }: Props) => {
-  const { version: previousBuildVersion = '' } = useBuildVersion<ParentBuild>('/data/parent') || {};
+  const { version: previousBuildVersion = '' } = useBuildVersion<ParentBuild>({ topic: '/data/parent' }) || {};
   const { percentage: previousBuildCodeCoverage = 0 } = usePreviousBuildCoverage(previousBuildVersion) || {};
-  const { percentage: buildCodeCoverage = 0, finishedScopesCount = 0 } = useBuildVersion<BuildCoverage>('/build/coverage') || {};
+  const { percentage: buildCodeCoverage = 0, finishedScopesCount = 0 } = useBuildVersion<BuildCoverage>({ topic: '/build/coverage' }) || {};
   const {
     all: {
       total: allMethodsTotalCount = 0,
@@ -38,7 +38,7 @@ export const CoverageSection = coverageSection(({ className }: Props) => {
       total: modifiedMethodsTotalCount = 0,
       covered: modifiedMethodsCoveredCount = 0,
     } = {},
-  } = useBuildVersion<Methods>('/build/methods') || {};
+  } = useBuildVersion<Methods>({ topic: '/build/methods' }) || {};
   const { agentId = '' } = useParams<{ agentId: string }>();
   const tooltipData = {
     totalCovered: {

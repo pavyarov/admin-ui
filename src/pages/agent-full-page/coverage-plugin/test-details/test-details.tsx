@@ -1,31 +1,38 @@
 import * as React from 'react';
 import { BEM } from '@redneckz/react-bem-helper';
 import {
-  Icons, Panel, Column, Table,
+  Icons, Column, Table, Panel,
 } from '@drill4j/ui-kit';
 
 import { capitalize } from 'utils';
 import { AssociatedTests } from 'types/associated-tests';
-import { MethodCoveredByTest } from 'types/method-covered-by-test';
 import { Cells } from 'components';
+import {
+  useTableActionsState,
+} from 'modules/table-actions';
 import { NoTestsStub } from './no-tests-stub';
 import { CoveredMethodsByTestSidebar } from './covered-methods-by-test-sidebar';
+import { useBuildVersion } from '../use-build-version';
 
 import styles from './test-details.module.scss';
 
 interface Props {
   className?: string;
-  testsUsages: AssociatedTests[];
-  coveredMethodsByTest: MethodCoveredByTest[];
+  coveredMethodsTopic: string;
+  topic: string
 }
 
 const testDetails = BEM(styles);
 
 export const TestDetails = testDetails(
   ({
-    className, testsUsages, coveredMethodsByTest,
+    className, topic, coveredMethodsTopic,
   }: Props) => {
     const [selectedTest, setSelectedTest] = React.useState('');
+    const { sort } = useTableActionsState();
+    const orderBy = React.useMemo(() => [sort], [sort]);
+    const testsUsages = useBuildVersion<AssociatedTests[]>({ topic, orderBy: sort }) || [];
+
     return (
       <div className={className}>
         {testsUsages.length > 0 ? (
@@ -58,7 +65,7 @@ export const TestDetails = testDetails(
               <Column
                 name="stats.result"
                 label="Status"
-                width="44px"
+                width="64px"
                 Cell={({ value }) => (
                   <Cells.TestStatus
                     type={value}
@@ -108,7 +115,7 @@ export const TestDetails = testDetails(
             isOpen={Boolean(selectedTest)}
             onToggle={() => setSelectedTest('')}
             testId={selectedTest}
-            coveredMethods={coveredMethodsByTest}
+            coveredMethodsTopic={coveredMethodsTopic}
           />
         )}
       </div>

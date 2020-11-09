@@ -1,25 +1,24 @@
 import * as React from 'react';
 
-import { AssociatedTests } from 'types/associated-tests';
-import { MethodCoveredByTest } from 'types/method-covered-by-test';
 import { TestSummary } from 'types/test-summary';
 import { TestTypeSummary } from 'types/test-type-summary';
+import { TableActionsProvider } from 'modules/table-actions';
 import { TestDetails } from '../test-details';
 import { useBuildVersion } from '../use-build-version';
 import { ProjectTestsCards } from '../project-tests-cards';
 
 export const Tests = () => {
-  const testsUsages = useBuildVersion<AssociatedTests[]>('/build/tests-usages') || [];
-  const coveredMethodsByTest = useBuildVersion<MethodCoveredByTest[]>('/build/tests/covered-methods') || [];
-  const allTests = useBuildVersion<TestSummary>('/build/summary/tests/all') || {};
-  const testsByType = useBuildVersion<TestTypeSummary[]>('/build/summary/tests/by-type') || [];
+  const allTests = useBuildVersion<TestSummary>({ topic: '/build/summary/tests/all' }) || {};
+  const testsByType = useBuildVersion<TestTypeSummary[]>({ topic: '/build/summary/tests/by-type' }) || [];
   return (
     <>
       <ProjectTestsCards allTests={allTests} testsByType={testsByType} />
-      <TestDetails
-        testsUsages={testsUsages}
-        coveredMethodsByTest={coveredMethodsByTest}
-      />
+      <TableActionsProvider>
+        <TestDetails
+          topic="/build/tests-usages"
+          coveredMethodsTopic="/build/tests/covered-methods"
+        />
+      </TableActionsProvider>
     </>
   );
 };

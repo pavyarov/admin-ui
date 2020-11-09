@@ -27,7 +27,7 @@ export const RisksModal = risksModal(
     onToggle,
     filter = 'all',
   }: Props) => {
-    const { newMethods = [], modifiedMethods = [] } = useBuildVersion<Risks>('/build/risks') || {};
+    const { newMethods = [], modifiedMethods = [] } = useBuildVersion<Risks>({ topic: '/build/risks' }) || {};
     const [selectedSection, setSelectedSection] = React.useState<string>(filter);
     const allMethods = newMethods.concat(modifiedMethods);
     const node = React.useRef<HTMLDivElement>(null);

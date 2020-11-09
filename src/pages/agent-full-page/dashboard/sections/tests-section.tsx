@@ -12,7 +12,7 @@ import { Section } from './section';
 import { SectionTooltip } from './section-tooltip';
 
 export const TestsSection = () => {
-  const { byTestType = [], finishedScopesCount = 0 } = useBuildVersion<BuildCoverage>('/build/coverage') || {};
+  const { byTestType = [], finishedScopesCount = 0 } = useBuildVersion<BuildCoverage>({ topic: '/build/coverage' }) || {};
   const totalCoveredMethodCount = byTestType.reduce((acc, { summary: { testCount = 0 } }) => acc + testCount, 0);
   const testsInfo: TestsInfo = byTestType.reduce((test, testType) => ({ ...test, [testType.type]: testType }), {});
   const tooltipData = {

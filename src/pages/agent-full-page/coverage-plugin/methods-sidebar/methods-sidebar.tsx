@@ -24,7 +24,7 @@ export const MethodsSidebar = methodsSidebar(
   ({
     className, isOpen, onToggle, title, type,
   }: Props) => {
-    const { methods = [] } = useBuildVersion<{ methods: MethodsDetails[] }>(`/build/methods/${type}`) || {};
+    const { methods = [] } = useBuildVersion<{ methods: MethodsDetails[] }>({ topic: `/build/methods/${type}` }) || {};
     const node = React.useRef<HTMLDivElement>(null);
     const { height: methodsListHeight } = useElementSize(node);
     return (

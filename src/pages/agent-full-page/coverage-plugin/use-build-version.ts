@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 
 import { defaultTest2CodePluginSocket } from 'common/connection';
-import { Search, Sort } from 'modules/table-actions/table-actions-types';
+import { Search } from 'types/search';
+import { Sort } from 'types/sort';
 import { usePluginState } from '../store';
 
-export function useBuildVersion<Data>(topic: string, search?: Search, sort?: Sort): Data | null {
+export function useBuildVersion<Data>({ orderBy, filters, topic } : {topic: string, filters?: Search[], orderBy?: Sort[]}): Data | null {
   const { agentId, buildVersion } = usePluginState();
   const [data, setData] = useState<Data | null>(null);
 
@@ -18,8 +19,8 @@ export function useBuildVersion<Data>(topic: string, search?: Search, sort?: Sor
         agentId,
         buildVersion,
         type: 'AGENT',
-        searchStatement: search,
-        sortStatement: sort,
+        filters,
+        orderBy,
       })
       : null;
 
@@ -27,7 +28,7 @@ export function useBuildVersion<Data>(topic: string, search?: Search, sort?: Sor
       unsubscribe && unsubscribe();
     };
     // eslint-disable-next-line
-  }, [agentId, buildVersion, topic, search, sort]);
+  }, [agentId, buildVersion, topic, orderBy, filters]);
 
   return data;
 }

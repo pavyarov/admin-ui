@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { BEM } from '@redneckz/react-bem-helper';
 import { Icons, Panel } from '@drill4j/ui-kit';
-import { Form, Field } from 'react-final-form';
 
 import { Fields } from 'forms';
 
 import { ClassCoverage } from 'types/class-coverage';
 import { useVisibleElementsCount } from 'hooks';
-import { Cells } from 'components';
+import { Cells, SearchPanel } from 'components';
 import { useTableActionsState, useTableActionsDispatch, setSearch } from 'modules';
 import { CoverageCell } from './coverage-cell';
 import { NameCell } from './name-cell';
@@ -35,34 +34,21 @@ export const CoverageDetails = coverageDetails(
     const [selectedId, setSelectedId] = React.useState('');
     const dispatch = useTableActionsDispatch();
     const { search, sort } = useTableActionsState();
-    const coverageByPackages = useBuildVersion<ClassCoverage[]>(topic, search, sort) || [];
+    const coverageByPackages = useBuildVersion<ClassCoverage[]>({ topic, filters: search, orderBy: sort }) || [];
     const ref = React.useRef<HTMLDivElement>(null);
     const visibleElementsCount = useVisibleElementsCount(ref, 10, 10);
 
     return (
       <div className={className}>
         <>
-          <Panel>
-            <Form
-              onSubmit={(values) => dispatch(setSearch(values?.search || ''))}
-              render={({ handleSubmit, form }) => (
-                <form onSubmit={handleSubmit}>
-                  <Field
-                    name="search"
-                    component={SearchField}
-                    placeholder="Search by packages"
-                    reset={() => { form.reset(); handleSubmit(); }}
-                  />
-                </form>
-              )}
-            />
-            <SearchResult align={search.value ? 'space-between' : 'end'}>
-              {search.value && <span data-test="coverage-details:search-result">{coverageByPackages.length} result</span>}
-              <span data-test="coverage-details:displaying-packages-count">
-                Displaying {coverageByPackages.slice(0, visibleElementsCount).length} of {packageCount} packages
-              </span>
-            </SearchResult>
-          </Panel>
+          <SearchPanel
+            onSearch={(value) => dispatch(setSearch([{ field: 'name', op: 'CONTAINS', value }]))}
+            searchQuery={search[0].value}
+            searchResult={coverageByPackages.length}
+            placeholder="Search by packages"
+          >
+            Displaying {coverageByPackages.slice(0, visibleElementsCount).length} of {packageCount} packages
+          </SearchPanel>
           <ExpandableTable
             data={coverageByPackages.slice(0, visibleElementsCount)}
             idKey="name"

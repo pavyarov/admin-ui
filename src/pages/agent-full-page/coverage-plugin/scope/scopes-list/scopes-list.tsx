@@ -43,8 +43,8 @@ export const ScopesList = scopesList(({ className }: Props) => {
   const { pluginId = '', buildVersion = '' } = useParams<{ pluginId: string; buildVersion: string }>();
   const { push } = useHistory();
   const dispatch = useCoveragePluginDispatch();
-  const activeScope = useBuildVersion<ScopeSummary>('/active-scope');
-  const scopes = useBuildVersion<ScopeSummary[]>('/scopes') || [];
+  const activeScope = useBuildVersion<ScopeSummary>({ topic: '/active-scope' });
+  const scopes = useBuildVersion<ScopeSummary[]>({ topic: '/scopes' }) || [];
   scopes.sort(
     ({ started: firstStartedDate }, { started: secondStartedDate }) => secondStartedDate - firstStartedDate,
   );

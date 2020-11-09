@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const InitialDataController = ({ children }: Props) => {
-  const activeSessions = useBuildVersion<ActiveSessions>('/active-sessions') || {};
+  const activeSessions = useBuildVersion<ActiveSessions>({ topic: '/active-sessions' }) || {};
   const dispatch = useCoveragePluginDispatch();
   const pluginDispatch = usePluginDispatch();
 

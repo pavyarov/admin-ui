@@ -32,12 +32,12 @@ export const Overview = overview(({ className }: Props) => {
   const [selectedTab, setSelectedTab] = React.useState('methods');
   const { agentId, loading } = usePluginState();
   const { status } = useAgent(agentId) || {};
-  const { version: previousBuildVersion = '' } = useBuildVersion<ParentBuild>('/data/parent') || {};
+  const { version: previousBuildVersion = '' } = useBuildVersion<ParentBuild>({ topic: '/data/parent' }) || {};
   const { percentage: previousBuildCodeCoverage = 0 } = usePreviousBuildCoverage(previousBuildVersion) || {};
-  const buildCoverage = useBuildVersion<BuildCoverage>('/build/coverage') || {};
+  const buildCoverage = useBuildVersion<BuildCoverage>({ topic: '/build/coverage' }) || {};
   const { percentage: buildCodeCoverage = 0 } = buildCoverage;
-  const scope = useBuildVersion<ActiveScope>('/active-scope');
-  const buildMethods = useBuildVersion<Methods>('/build/methods') || {};
+  const scope = useBuildVersion<ActiveScope>({ topic: '/active-scope' });
+  const buildMethods = useBuildVersion<Methods>({ topic: '/build/methods' }) || {};
 
   return (
     <div className={className}>

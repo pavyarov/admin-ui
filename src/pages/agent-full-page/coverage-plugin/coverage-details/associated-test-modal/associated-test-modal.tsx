@@ -22,7 +22,7 @@ export const AssociatedTestModal = associatedTestModal(
   ({
     className, isOpen, onToggle, id, associatedTestsTopic,
   }: Props) => {
-    const associatedTests = useBuildVersion<AssociatedTests[]>(associatedTestsTopic) || [];
+    const associatedTests = useBuildVersion<AssociatedTests[]>({ topic: associatedTestsTopic }) || [];
     const {
       tests = [], packageName = '', className: testClassName = '', methodName = '',
     } = associatedTests.find((test) => test.id === id) || {};

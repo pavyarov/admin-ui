@@ -9,7 +9,7 @@ import { Section } from './section';
 import { SectionTooltip } from './section-tooltip';
 
 export const RisksSection = () => {
-  const { newMethods = [], modifiedMethods = [] } = useBuildVersion<Risks>('/build/risks') || {};
+  const { newMethods = [], modifiedMethods = [] } = useBuildVersion<Risks>({ topic: '/build/risks' }) || {};
   const risksCount = newMethods.length + modifiedMethods.length;
   const tooltipData = {
     new: {

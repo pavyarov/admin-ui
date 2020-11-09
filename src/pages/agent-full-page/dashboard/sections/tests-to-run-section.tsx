@@ -12,7 +12,7 @@ import { Section } from './section';
 import { SectionTooltip } from './section-tooltip';
 
 export const TestsToRunSection = () => {
-  const testsToRun = useBuildVersion<TestTypeCount[]>('/build/summary/tests-to-run/by-type') || [];
+  const testsToRun = useBuildVersion<TestTypeCount[]>({ topic: '/build/summary/tests-to-run/by-type' }) || [];
   const totalTestsToRunCount = testsToRun.reduce((acc, { count }) => acc + count, 0);
   const testsToRunInfo: TestToRunInfo = testsToRun.reduce((acc, testToRun) => ({
     ...acc, [testToRun.type]: { count: testToRun.count },
